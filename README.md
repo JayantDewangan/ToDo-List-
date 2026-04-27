@@ -13,8 +13,8 @@ The app supports these operations:
 
 For the frontend I used axios to call these APIs and useState and useEffect to manage and load the data.
 
-The backend is deployed on Render and the frontend is deployed on Netlify.
+The backend and frontend both are deployed on Render.
 
-- Backend: https://your-render-url.onrender.com
-- Frontend: https://your-netlify-url.netlify.app
+- Backend: https://todo-list-vmv0.onrender.com
+- Frontend: https://todo-list-1-ky8r.onrender.com
 
