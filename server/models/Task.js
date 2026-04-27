@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-// defining the schema for our database : 
+// defining the schema for the database : 
 const taskSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -10,7 +10,6 @@ const taskSchema = new mongoose.Schema({
         type: Boolean,
         default: false
     }
-}, {timestamps: true}); // timestamps automatically adds createdAt and updatedAt time
+}, {timestamps: true}); 
 
-export default mongoose.model('Task',taskSchema); 
-// This creates a Mongoose model named "Task" based on the schema we have defined that is the taskSchema
+export default mongoose.model('Task',taskSchema);
