@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 
 const API = import.meta.env.VITE_API_URL;
@@ -12,6 +12,7 @@ function App(){
   const [ editingId, setEditingId ] = useState(null);
   const [ editTitle, setEditTitle ] = useState('');
   const [ expandedId, setExpandedId ] = useState(null);
+  const searchTimeout = useRef(null);
 
   useEffect(() => {
     fetchTasks();
@@ -67,7 +68,10 @@ function App(){
   };
 
   const saveEdit = async (id)=>{
-    if(!editTitle.trim()) return;
+    if(!editTitle.trim()){
+      setError('Title cannot be empty');
+      return;
+    }
     try{
       const res = await axios.put(`${API}/tasks/${id}`, { title: editTitle });
       setTasks(tasks.map(t => t._id === id ? res.data : t));
@@ -78,11 +82,16 @@ function App(){
     }
   };
 
-  const handleSearch = (e) => {
-    const val = e.target.value;
-    setSearch(val);
+
+const handleSearch = (e) => {
+  const val = e.target.value;
+  setSearch(val);
+
+  clearTimeout(searchTimeout.current);
+  searchTimeout.current = setTimeout(() => {
     fetchTasks(val);
-  };
+  }, 400);
+};
 
 
   return (
@@ -134,7 +143,7 @@ function App(){
                     }}>Edit</button>
                   )}
                   <button className='info-btn' onClick={() => setExpandedId(expandedId === task._id ? null : task._id)}>  
-                    {expandedId === task.id ? 'hide' : 'Info'}
+                    {expandedId === task._id ? 'hide' : 'Info'}
                   </button>
                   <button className='delete-btn' onClick={()=>deleteTask(task._id)}>x</button>
                 </div>
